@@ -1,0 +1,20 @@
+import com.loyalty.demo.model.ProductModel;
+
+rule "Price max is 15000"
+    when
+        p: ProductModel(price > 15000)
+    then
+        p.setPrice(null);
+        System.out.print("Price max is 15000");
+    end
+
+// dynamic loading.....
+// salience: xác định độ ưu tiên của các rule, salience nào càng lớn thì được thực hiện trước
+// activation-group: Ngăn chặn việc kích hoạt nhiều hơn một rule từ cùng một nhóm (activation group) trong một lần chạy.
+                  //Cách sử dụng: Khi một rule trong activation group được kích hoạt,
+                  //   các rule khác trong cùng activation group sẽ bị ngăn chặn và không được kích hoạt trong lần chạy hiện tại.
+//  agenda-group: Quản lý thứ tự thực thi của các rule và chạy nhóm rule cụ thể theo yêu cầu.
+                  // Cách sử dụng: Khi một rule thuộc một agenda group được kích hoạt,
+                   //chỉ những rule trong cùng agenda grou p đó mới được thêm vào agenda để thực thi.
+//  ruleflow-group: Được sử dụng trong ngữ cảnh của quy trình luồng (rule flow) để quản lý và kiểm soát việc thực thi các rule trong một quy trình luồng cụ thể.
+                    // Cách sử dụng: Khi một quy trình luồng được kích hoạt, chỉ những rule thuộc cùng một rule flow group sẽ được thực thi.
