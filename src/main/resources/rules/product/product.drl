@@ -1,0 +1,9 @@
+import com.loyalty.topic1.model.ProductModel;
+
+rule "Price max is 15000"
+    when
+        p: ProductModel(price > 15000)
+    then
+        p.setPrice(null);
+        System.out.print("Price max is 15000");
+    end
