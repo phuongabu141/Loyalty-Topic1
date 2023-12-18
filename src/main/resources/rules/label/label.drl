@@ -1,8 +1,9 @@
-import com.loyalty.topic1.model.GroupModel;
-import com.loyalty.topic1.model.ConditionModel;
-import com.loyalty.topic1.model.CustomerAttributeModel;
-import com.loyalty.topic1.model.AttributeModel;
-import com.loyalty.topic1.model.OperatorModel;
+import com.loyalty.identity_customer.model.GroupModel;
+import com.loyalty.identity_customer.model.ConditionModel;
+import com.loyalty.identity_customer.model.CustomerAttributeModel;
+import com.loyalty.identity_customer.model.AttributeModel;
+import com.loyalty.identity_customer.model.OperatorModel;
+import com.loyalty.identity_customer.response.CustomerAttributeResponse;
 
 function boolean checkCondition(String attributeValue, OperatorModel operator, String conditionValue) {
     double attributeDouble = Double.parseDouble(attributeValue);
@@ -24,17 +25,31 @@ function boolean checkCondition(String attributeValue, OperatorModel operator, S
     }
 }
 
-rule "check customer attribute"
+
+rule "check group has condition"
     when
-        $customerAttribute: CustomerAttributeModel($customerId: id.customerId, $attributeId: id.attributeId, $value: value)
+        // xác định các đối tượng cần lấy để kiểm tra
+        $customerAttribute: CustomerAttributeResponse($customerId: customer_id, $attributeId: attribute_id, $value: value)
         $group: GroupModel(conditionModel != null, labelModel != null)
         $condition: ConditionModel() from $group.getConditionModel
         $operator: OperatorModel() from $condition.getOperatorModel
+        // lấy ra attribute trong condition tương ứng với attribute trong customer_attribute để check điều kiện
         eval($condition.getAttributeModel().getAttribute_id() == $attributeId)
+        // đưa value của thuộc tính trong customer_attribute đi so sánh với value trong condition của attribute đó
         eval(checkCondition($value, $operator, $condition.getValue()))
     then
-        System.out.println("Customer with ID " + $customerId + " thỏa mãn điều kiện trong " + $group.getGroup_id() + "\nvới điều kiện là: " + $condition + "\ntrong khi KH có " + $customerAttribute + ". Applying label " + $group.getLabelModel().getLabel_id());
+        // hiển thị ra kết quả
+        System.out.println("Customer with ID " + $customerId + " thoa man group " + $group.getGroup_id() + "\nwith condition: " + $condition + "\ntrong khi KH co " + $customerAttribute + ". Applying label " + $group.getLabelModel().getLabel_id());
     end
+
+// check các group có group con
+//rule "check group no condition"
+    //when
+        //$customerAttribute: CustomerAttributeModel($customerId: id.customerId, $attributeId: id.attributeId, $value: value)
+        //$group: GroupModel(conditionModel == null)
+    //then
+        //System.out.print("Đã chạy");
+    //end
 
 // dynamic loading.....
 // salience: xác định độ ưu tiên của các rule, salience nào càng lớn thì được thực hiện trước
