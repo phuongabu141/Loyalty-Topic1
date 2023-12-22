@@ -1,9 +1,6 @@
 package com.loyalty.identity_customer.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +17,9 @@ public class ResultGroupModel {
     @EmbeddedId
     private ResultGroupId resultGroupId;
 
-    @Column(name = "is_true")
-    private boolean is_true;
+    @Column(name = "logic_value")
+    private boolean logic_value;
 
+    @Column(name = "customer_value")
+    private String customer_value;
 }

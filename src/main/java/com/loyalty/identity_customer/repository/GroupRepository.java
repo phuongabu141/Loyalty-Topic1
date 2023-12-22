@@ -41,8 +41,17 @@ public interface GroupRepository extends JpaRepository<GroupModel, Long>{
             " FROM GroupModel g LEFT JOIN g.logicModel l LEFT JOIN g.labelModel la LEFT JOIN g.conditionModel c LEFT JOIN c.attributeModel a LEFT JOIN c.operatorModel o")
     List<GroupResponse> getAllGroup();
 
-
     @Query("SELECT g FROM GroupModel g WHERE g.conditionModel IS NOT NULL")
     List<GroupModel> getListGroupWithConditionNotNull();
 
+
+    // lấy group by id
+    @Query("SELECT NEW com.loyalty.identity_customer.response.GroupResponse(g.group_id, g.head_group_id," +
+            " new com.loyalty.identity_customer.response.LogicResponse(l.logic_id, l.notation)," +
+            " new com.loyalty.identity_customer.response.ConditionResponse(c.condition_id," +
+            " new com.loyalty.identity_customer.response.AttributeResponse(a.attribute_id, a.name)," +
+            " new com.loyalty.identity_customer.response.OperatorResponse(o.operator_id, o.notation), c.value)," +
+            " new com.loyalty.identity_customer.response.LabelResponse(la.label_id, la.label_name, la.status))" +
+            " FROM GroupModel g LEFT JOIN g.logicModel l LEFT JOIN g.labelModel la LEFT JOIN g.conditionModel c LEFT JOIN c.attributeModel a LEFT JOIN c.operatorModel o WHERE g.group_id = :groupId")
+    GroupResponse getGroupById(@Param("groupId") Long groupId);
 }

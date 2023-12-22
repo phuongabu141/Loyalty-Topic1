@@ -1,5 +1,6 @@
 package com.loyalty.identity_customer.controller;
 
+import com.loyalty.identity_customer.request.LabelRequest;
 import com.loyalty.identity_customer.response.ApiResponse;
 import com.loyalty.identity_customer.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ public class LabelController {
     @Autowired
     private LabelService labelService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Object>> getLabelById(@PathVariable("id") Long labelId)
+    {
+        return labelService.getLabelById(labelId);
+    }
     @GetMapping("/LabelMapGroup")
     public ResponseEntity<ApiResponse<Object>> getLabelMapGroup(){
         return labelService.getLabelMapGroup();
@@ -34,5 +40,17 @@ public class LabelController {
     public ResponseEntity<ApiResponse<Object>> findByName(@RequestParam("labelName") String labelName)
     {
         return labelService.findByName(labelName);
+    }
+
+    @GetMapping("/activated")
+    public ResponseEntity<ApiResponse<Object>> getLabelActivated()
+    {
+        return labelService.findLabelActivated();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse<Object>> addLabel(@RequestBody LabelRequest labelRequest)
+    {
+        return labelService.addLabel(labelRequest);
     }
 }

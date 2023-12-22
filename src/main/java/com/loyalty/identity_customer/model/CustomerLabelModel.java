@@ -2,11 +2,13 @@ package com.loyalty.identity_customer.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Builder
 @Entity
 @Table(name = "customer_label")
 @Data
@@ -32,8 +34,9 @@ public class CustomerLabelModel {
     @JoinColumn(name = "label_id")
     private LabelModel labelModel;
 
-    @Column(name = "last_event_id")
-    private Long last_event_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "last_event_id")
+    private CustomerLabelEventModel customerLabelEventModel;
 
     @Column(name = "is_delete")
     private boolean is_delete;

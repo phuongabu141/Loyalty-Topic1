@@ -1,11 +1,12 @@
 package com.loyalty.identity_customer.model;
 
-import java.util.Date;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,7 +25,7 @@ public class CustomerModel {
     private String gender;
     
     @Column(name = "birthday")
-    private Date birthday;
+    private java.sql.Date birthday;
     
     @Column(name = "email")
     private String email;

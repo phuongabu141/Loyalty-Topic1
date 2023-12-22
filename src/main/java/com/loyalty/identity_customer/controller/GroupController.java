@@ -1,5 +1,6 @@
 package com.loyalty.identity_customer.controller;
 
+import com.loyalty.identity_customer.request.GroupRequest;
 import com.loyalty.identity_customer.response.ApiResponse;
 import com.loyalty.identity_customer.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,15 @@ public class GroupController {
 		return groupService.getListGroupWithConditionNotNull();
 	}
 
-	@GetMapping(value = "/test")
-	public ResponseEntity<String> test()
+//	@GetMapping(value = "/test")
+//	public ResponseEntity<String> test()
+//	{
+//		return groupService.checkCondition();
+//	}
+
+	@PostMapping("/add")
+	public ResponseEntity<ApiResponse<Object>> addGroup(@RequestBody GroupRequest groupRequest)
 	{
-		return groupService.checkCondition();
+		return groupService.addGroup(groupRequest);
 	}
 }

@@ -5,11 +5,13 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Builder
 @Entity
 @Table(name = "label_edge")
 @Data
@@ -19,9 +21,6 @@ public class LabelEdgeModel {
 
     @EmbeddedId
     private LabelEdgeId labelEdgeId;
-
-    @Column(name = "description")
-    private String description;
 
     @Column(name = "created_time")
     private Date created_time;

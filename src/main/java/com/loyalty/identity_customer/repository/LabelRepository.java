@@ -30,4 +30,10 @@ public interface LabelRepository extends JpaRepository<LabelModel, Long> {
 
     @Query("SELECT NEW com.loyalty.identity_customer.response.LabelResponse(l.id, l.label_name, l.status) FROM LabelModel l WHERE l.label_name LIKE %:name%")
     List<LabelResponse> findByName(@Param("name") String name);
+
+    @Query("SELECT NEW com.loyalty.identity_customer.response.LabelResponse(l.id, l.label_name, l.status) FROM LabelModel l WHERE l.status = 'Đã kích hoạt'")
+    List<LabelResponse> listLabelActivated();
+
+    @Query("SELECT l FROM LabelModel l WHERE l.label_name = :name")
+    LabelModel findByLabel_name(@Param("name") String name);
 }
